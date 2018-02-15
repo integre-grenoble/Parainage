@@ -1,0 +1,57 @@
+/*################RECCUPERATION DATA##################*/
+réccupération fichier parrains ==> Dans listeParrains
+réccupération fichier filleuls ==> Dans listeAdherents
+réccupération fichier parrains encore dispos (soit non matchés soit encore la possibilité d'avoir des filleuls) ==> Dans listeParrains
+réccupération fichier filleuls non matchés ==> Dans listeAdherents
+
+/*################Notes(parrain/filleul)##################*/
+Critère 1 : Langues parlées couramment #Bloquant
+    si pas de langue en commun
+        on stop l'algo (pas de match possible)
+Critère 2 : Différence d'âge #note /10
+    si diff < 10 ans
+        note2 = 0
+    sinon
+        note2 = 10 - différence
+Critère 3 : Université / Composante #note /10
+    Si même composante
+        note3 = 10
+    Sinon si même école
+        note3 = 7
+    Sinon si même université
+        note3 = 3
+    Sinon
+        note = 0
+Critère 4 : Centres intérêts #note / 10
+    Si 3 centres en commun
+        note4 = 10
+    Sinon si 2 centres
+        note4 = 7
+    Sinon si 1 centre
+        note4 = 4
+    Sinon
+        note4 = 0
+noteMoyenne = (note2 + note3 + note4) / 3
+Critère 5 : Sexe
+    si noteMoyenne < 7
+        on stop l'algo (pas de match possible)
+
+/*##########Main###########*/
+Pour tout Filleuls f
+    Pour tout Parrains p
+        si p.multiFilleuls && p.nbFilleuls < 3 && #Notes(p, f)# > 5
+            écriture dans le fichier match (couple parrain / filleul = noms, prenoms, emails)
+            f.match = true
+            p.match = true
+            si p.multiFilleuls
+                p.nbFilleuls++
+Pour tout Filleuls f
+    si f.match == true
+        écriture dans fichier filleuls matchés
+Pour tout Parrains p
+    si p.match == true
+        si p.multiFilleuls
+            si p.nbFilleuls == 3
+                écriture dans fichier parrains matchés
+        sinon
+            écriture dans fichier parrains matchés
